@@ -16,4 +16,4 @@ const busPermitSchema = new mongoose.Schema({
   expiryDate: { type: Date, required: true },
 });
 
-module.exports = mongoose.model("BusPermit", busPermitSchema);
+module.exports = mongoose.model("BusPermits", busPermitSchema);
