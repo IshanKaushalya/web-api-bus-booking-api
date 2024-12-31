@@ -9,6 +9,130 @@ const operatorAuthenticationToken = require("../middleware/operatorAuthenticateT
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Operator:
+ *       type: object
+ *       required:
+ *         - email
+ *         - password
+ *       properties:
+ *         email:
+ *           type: string
+ *           description: The operator's email
+ *         password:
+ *           type: string
+ *           description: The operator's password
+ *     Trip:
+ *       type: object
+ *       properties:
+ *         operatorName:
+ *           type: string
+ *           description: The name of the operator
+ *         date:
+ *           type: string
+ *           format: date-time
+ *           description: The date of the trip
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Operators
+ *   description: The operators managing API
+ */
+
+/**
+ * @swagger
+ * /operator/login:
+ *   post:
+ *     summary: Login an operator
+ *     tags: [Operators]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The operator's email
+ *               password:
+ *                 type: string
+ *                 description: The operator's password
+ *     responses:
+ *       200:
+ *         description: The token of the authenticated operator
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: The JWT token
+ *       400:
+ *         description: Invalid email or password
+ *       500:
+ *         description: Error logging in
+ */
+
+/**
+ * @swagger
+ * /operator/view-trips:
+ *   get:
+ *     summary: View assigned trips
+ *     tags: [Operators]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of trips assigned to the operator
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Trip'
+ *       404:
+ *         description: No trips found for this operator
+ *       500:
+ *         description: Error fetching trips
+ */
+
+/**
+ * @swagger
+ * /operator/view-trips-by-dates:
+ *   get:
+ *     summary: View and sort assigned trips by dates
+ *     tags: [Operators]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
+ *         description: Sort direction (asc or desc)
+ *     responses:
+ *       200:
+ *         description: List of sorted trips assigned to the operator
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Trip'
+ *       404:
+ *         description: No trips found for this operator
+ *       500:
+ *         description: Error fetching trips
+ */
+
 // Operator Login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;

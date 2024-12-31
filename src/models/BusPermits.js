@@ -11,7 +11,7 @@ const busPermitSchema = new mongoose.Schema({
     enum: ["luxury", "semi-luxury", "normal"],
     required: true,
   },
-  operatorName: { type: String, required: true },
+  operatorName: { type: String, ref: "Operator", required: true },
   address: { type: String, required: true },
   expiryDate: { type: Date, required: true },
 });
